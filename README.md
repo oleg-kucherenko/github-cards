@@ -1,5 +1,5 @@
-## The GitHub Cards App
+## Search GitHub profiles 
 
-The web app that fetchs data from GitHub Users' API. To use it type the GitHub username and press 'Add card' button
+App that fetchs data from GitHub API. Type the GitHub username and press 'Add card' button.
 
-Please visit to review https://oleg-kucherenko.github.io/github-cards-pages/
+Please visit to review https://search-github-profiles.herokuapp.com 
