@@ -1,19 +1,15 @@
-import React from "react";
-import Card from "./Card";
+import React from "react"
+import Card from "./Card"
+import { v4 as uuidv4 } from 'uuid'
 
-/**
- * CardList is a functional component that is
- * responsible for gathering Card components together.
- * Props to CardList (users' profiles) will be given from App component
- */
 const CardList = (props) => (
   <React.Fragment>
     <div className="d-flex flex-wrap">
       {props.profiles.map((profile) => (
-        <Card {...profile} key={profile.id} />
+        <Card {...profile} key={uuidv4()} />
       ))}
     </div>
   </React.Fragment>
-);
+)
 
-export default CardList;
+export default CardList

@@ -1,64 +1,78 @@
-import React from "react";
+import React from "react"
 
-/**
- * Form class is a component that is responsible for input field,
- * 'Add card' and 'Reset' buttons
- */
 class Form extends React.Component {
-  // State stores current input value and
-  // updates through <input onChange ... />
-  // This state is used to fetch data from API
-  state = { userName: "" };
+  state = {
+    userName: "",
+    errorProfile: false
+  }
 
-  /**
-   * Function that serves 'Add card' button (button of submit type)
-   */
   handleSubmit = async (event) => {
-    event.preventDefault();
-
-    // Fetch data from GitHub API
+    event.preventDefault()
     const resp = await fetch(
       `https://api.github.com/users/${this.state.userName}`
-    );
-    const data = await resp.json();
+    )
+    if (resp.status === 200) {
+      this.setState(prevState => ({
+        errorProfile: false
+      }))
+      const data = await resp.json()
+      this.props.onSubmitUpdateAppState(data)
+    } else if (resp.status === 404) {
+      this.setState(prevState => ({
+        errorProfile: true
+      }))
+    }
 
-    // Send data to update the state of App component
-    this.props.onSubmitUpdateAppState(data);
+    this.setState({ userName: "" })
+  }
 
-    // Clear input
-    this.setState({ userName: "" });
-  };
+  resetHandler = async () => {
+    this.setState(prevState => ({
+      errorProfile: false
+    }))
+    this.props.resetAppState()
+  }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          value={this.state.userName}
-          onChange={(event) => this.setState({ userName: event.target.value })}
-          placeholder="GitHub Username"
-          required
-          className="form-control"
-          style={{ width: "30%", minWidth: "200px" }}
-        />
+      <>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            type="text"
+            value={this.state.userName}
+            onChange={(event) => this.setState({ userName: event.target.value })}
+            placeholder="Ex. oleg-kucherenko"
+            required
+            className="form-control"
+            style={{ width: "30%", minWidth: "200px" }}
+          />
 
-        <button className="btn btn-primary mt-3" type="submit">
-          Add card
+          <button className="btn btn-primary mt-3" type="submit">
+            Add card
         </button>
 
-        <button
-          className="btn btn-outline-primary mt-3 ml-2"
-          type="button"
-          onClick={this.props.resetAppState}
-        >
-          Reset
+          <button
+            className="btn btn-outline-primary mt-3 ml-2"
+            type="button"
+            onClick={this.resetHandler}
+          >
+            Reset
         </button>
-      </form>
-    );
+
+
+        </form>
+        { this.state.errorProfile && (
+          <div style={{ color: 'blue' }}>
+            <br />
+            Not found
+          </div>
+        )}
+      </>
+    )
   }
 }
 
-export default Form;
+export default Form
 
 // Using ref
 // class Form extends React.Component {

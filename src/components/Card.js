@@ -1,10 +1,5 @@
-import React from "react";
+import React from "react"
 
-/**
- * Card class is a functional component that is responsible for user card.
- * Props for Card component (one user profile) will be given from
- * CardList component
- */
 const Card = (props) => (
   <div className="card mr-2 mb-2" style={{ width: "12rem" }}>
     <img className="card-img-top" src={props.avatar_url} alt="Company's Logo" />
@@ -12,11 +7,13 @@ const Card = (props) => (
     <div className="card-body">
       <h5 className="card-title">{props.name}</h5>
       <p className="card-text">{props.company}</p>
+      <p className="card-text">{props.location}</p>
+      <a href={props.html_url} target='_blank'>{props.html_url}</a>
     </div>
   </div>
 );
 
-export default Card;
+export default Card
 
 // class Card extends React.Component {
 //   render() {
